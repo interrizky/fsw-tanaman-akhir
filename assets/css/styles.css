@@ -5,6 +5,7 @@ body {
 .navbar {
   background-color: #6cbe5e;
   color: #ffffff;
+  font-size: 24px;
 }
 
 .navbar .menu .p-2 {
