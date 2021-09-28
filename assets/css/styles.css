@@ -1,0 +1,12 @@
+body {
+  font-family: 'Open Sans';
+}
+
+.navbar {
+  background-color: #6cbe5e;
+  color: #ffffff;
+}
+
+.navbar .menu .p-2 {
+  margin-right: 5%;
+}
