@@ -26,12 +26,10 @@ body {
   text-align: center;
 }
 
-/* .list-product .isian-product{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-} */
+.list-product .isian-product img{
+  width:200px;
+  height:200px;
+}
 
 .list-product .isian-product .baris-pertama .product-box {
     display: flex;
