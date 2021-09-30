@@ -17,7 +17,7 @@
     <div class="container-fluid">
       <div class="row navbar">
         <div class="logo col-7">
-          <a style="margin-left: 35px; font-weight: bold">LOGO</a>
+          <a class="text-logo" onClick=coba() style="margin-left: 35px; font-weight: bold">LOGO</a>
         </div>
         <div class="menu col-5 d-flex flex-row-reverse justify-content-center">
           <button type="button" class="btn btn-outline-light">SUBSCRIBE</button>
@@ -109,12 +109,11 @@
             </div>
           </div>                    
         </div>
-        <div class="page product" style="margin-top:15px;">
+        <div class="page-product" style="margin-top:15px;">
           <ol class="pagination" style="display:flex; justify-content:center; align-items:center; text-align:center">
-            <li style="margin:10px"> 1 </li>
-            <li style="margin:10px"> 2 </li>
-            <li style="margin:10px"> 3 </li>
-            <li style="margin:10px"> >> </li>
+            <li class="page" onClick=myFunction() style="margin:10px" value="1">1</li>
+            <li class="page" style="margin:10px" value="2">2</li>
+            <li class="page" style="margin:10px" value="3">3</li>
           </ol>
         </div>     
       </div>
@@ -128,4 +127,60 @@
      
     </div>
   </body>
+
+  <script type="text/javascript">
+    var textLogo = document.querySelector('.navbar .logo .text-logo');
+    // console.log(textLogo);
+    /* cara 1 -- langsung jalan tanpa diklik */
+    // textLogo.addEventListener('click', function() {
+    //   console.log('click dari Logo');
+    // });
+    /* cara 2 -- load dulu, diklik baru jalan */
+    // textLogo.addEventListener('click', coba);
+    // function coba() {
+    //   console.log('click dari Logo');
+    // }
+    /* cara 3 -- bikin function trus masukin ke html trus kasi onCLick() */
+    function coba(){
+      console.log('click dari Logo');
+    }
+
+    let hoverProduct = document.querySelector('.list-product .isian-product .row .product-box .card');
+    // let imgHover = document.querySelector('.list-product .isian-product .row .product-box .card img');
+    // let txtHover = document.querySelector('.list-product .isian-product .row .product-box .card p');
+
+    hoverProduct.addEventListener('mouseover', trialOver);
+    function trialOver() {
+      console.log("tada");
+      console.log(hoverProduct);
+      // hoverProduct.style.cssText += 
+      //   'width: 234px; display: flex; justify-content: center; align-items: center; background-color: rgba(0,0,0,0.3);'      
+      //   // 'position: absolute;' /* Sit on top of the page content */
+      //   // 'display: none;' /* Hidden by default */
+      //   // 'height: 282px;' /* Full height (cover the whole page) */
+      //   // 'top: 0;'
+      //   // 'left: 0;'
+      //   // 'right: 0;'
+      //   // 'bottom: 0;'
+      //   // 'background-color: rgba(0,0,0,0.6);' /* Black background with opacity */
+      //   // 'z-index: 2;' /* Specify a stack order in case you're using a different order for other elements */
+      //   // 'cursor: pointer;' /* Add a pointer on hover */
+      // ;
+      // hoverProduct.innerHTML = `
+      //   <button type="button" class="btn btn-info w-75">Info</button>
+      // `;
+    }
+
+    hoverProduct.addEventListener('mouseout', trialOut);
+    function trialOut() {
+      hoverProduct.display = "";
+    }
+
+
+    // var angka = document.querySelector('.page-product .pagination .page').value;
+    // function myFunction() {
+    //   console.log(angka);
+    // }
+  </script>
+
 </html>

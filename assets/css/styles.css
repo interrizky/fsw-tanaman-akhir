@@ -26,39 +26,39 @@ body {
   text-align: center;
 }
 
-.list-product .isian-product img{
-  width:200px;
-  height:200px;
+.list-product .isian-product img {
+  width: 200px;
+  height: 200px;
 }
 
 .list-product .isian-product .baris-pertama .product-box {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;    
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
 }
 
 .list-product .isian-product .baris-kedua .product-box {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;    
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
 }
 
 .list-product .isian-product .baris-ketiga .product-box {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;    
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
 }
 
 .footer {
   background-color: #6cbe5e;
   color: #ffffff;
-  height:75px;
+  height: 75px;
   font-size: 18px;
 }
 
