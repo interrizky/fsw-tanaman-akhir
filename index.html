@@ -139,36 +139,63 @@
       console.log('click dari Logo');
     }
 
+    /* hovering in */
     for(let i = 1; i <= 9; i++) {
-      let test = [];
       let testProductBox = [];
+      let test = [];
+      testProductBox[i] = document.querySelector('.list-product .isian-product .row .product-box-' +i);      
       test[i] = document.querySelector('.list-product .isian-product .row .product-box-' +i+ ' .wrapper-content-' +i);
-      testProductBox[i] = document.querySelector('.list-product .isian-product .row .product-box-' +i);
+
       test[i].addEventListener('mouseover', hoveringIn);
       function hoveringIn() {
         test[i].style.cssText = 'background-color: grey; opacity: 30%; position: absolute';
-        testProductBox[i].innerHTML += `
-          <div class="demo-content" style="position: relative;">
-            <button type="button" class="btn btn-info w-100">Info</button>
-          </div>              
-        `
-        // console.log(test[i]);
-        // console.log(testProductBox[i]);        
+        
+        // testProductBox[i].innerHTML += `
+        //   <div class="demo-content" style="position: relative;">
+        //     <button type="button" class="btn btn-info w-100">Info</button>
+        //   </div>              
+        // `
+
+        /* create div button using append instead of innerHTML */
+        let newDiv = document.createElement('div');
+        newDiv.className = 'demo-content';
+        newDiv.id = 'demo-content';
+        newDiv.style.cssText = 'position: relative';
+
+        let newChildDiv = document.createElement('button');
+        newChildDiv.className = 'btn btn-info w-100';
+        newChildDiv.textContent = 'Info';        
+        newDiv.appendChild(newChildDiv);
+        
+        testProductBox[i].appendChild(newDiv);
       }
     }
 
+    /* hovering out */
     for(let i = 1; i <= 9; i++) {
-      let test = [];
       let testProductBox = [];
+      let test = [];
+      let demoContent = [];
+      testProductBox[i] = document.querySelector('.list-product .isian-product .row .product-box-' +i);      
       test[i] = document.querySelector('.list-product .isian-product .row .product-box-' +i+ ' .wrapper-content-' +i);
-      testProductBox[i] = document.querySelector('.list-product .isian-product .row .product-box-' +i);
-      test[i].addEventListener('click', hoveringOut);
-      function hoveringOut() {
-        test[i].style.cssText = '';
-        testProductBox[i].innerHTML = '';
-        console.log(test[i]);
-        console.log(testProductBox[i]);        
-      }
+      demoContent[i] = document.querySelector('.list-product .isian-product .row .product-box-' +i+ ' .demo-content');
+      
+      console.log(demoContent[i]);
+
+      // test[i].addEventListener('mouseout', hoveringOut);
+      // function hoveringOut() {
+      //   console.log(demoContent[i]);
+      //   demoContent[i].remove();
+      //   test[i].display.style = '';
+      //   test[i].style.cssText = 'background-color: grey; opacity: 30%; position: absolute';
+      //   testProductBox[i].innerHTML += `
+      //     <div class="demo-content" style="position: relative;">
+      //       <button type="button" class="btn btn-info w-100">Info</button>
+      //     </div>              
+      //   `       
+      //   console.log(testProductBox[i]);
+      //   console.log(test[i]);
+      // }
     }    
 
 
