@@ -26,6 +26,16 @@ body {
   text-align: center;
 }
 
+.list-product .tulisan-product {
+  /* display: flex; */
+  justify-content: center;
+  align-items: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  text-align: center;
+  margin: 20px;
+}
+
 .list-product .isian-product img {
   width: 200px;
   height: 200px;
