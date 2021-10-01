@@ -45,9 +45,10 @@
       </div>
       <div class="row list-product">
         <div class="tulisan-product">
-          <p class="tulisan" style="font-size: 24px; text-align: center">Products</p>
-          <input class="input" type="text" style="margin-bottom: 20px;"></input>
-          <button type="button" class="searching btn btn-outline-danger btn-lg">Search</button>       
+          <p class="tulisan" style="font-size: 24px;">Products</p>
+          <input class="input form-control" type="text" style="margin-bottom: 20px;" placeholder="Search Your Movie Title Here..."></input>
+          <button type="button" class="searching btn btn-outline-danger btn-lg mb-5">Search</button>       
+          <button type="reset" class="resetting btn btn-outline-dark btn-lg mb-5">Reset</button>       
         </div>
         <div class="isian-product">
           <!-- baris pertama -->
@@ -175,50 +176,10 @@
   </body>
 
   <script type="text/javascript">
-    let bikinKolom = document.querySelector('.list-product .isian-product');
-
-    for(let i=0; i<=3; i++) {
-      bikinKolom.innerHTML += `
-        <div class="row baris-pertama baris" ` +(i+1) + `style="margin-bottom: 5%"> ` +
-          for(){
-            
-          }
-          + `<div class="product-box-1 col-4">
-        </div>
-      `;
-    }
-
-    bikinKolom.innerHTML += `
-      <div class="row baris-pertama baris1" style="margin-bottom: 5%">
-        <div class="product-box-1 col-4">
-          <div
-            class="wrapper-content-1 shadow-lg rounded"
-            style="background-color: #fafafa"
-          >
-            <!-- <img src="./assets/images/pngfind-1-transparent.png"></img>
-            <p>Galactus la parde</p> -->
-          </div>
-        </div>
-        <div class="product-box-2 col-4">
-          <div
-            class="wrapper-content-2 shadow-lg rounded"
-            style="background-color: #fafafa"
-          >
-            <!-- <img src="./assets/images/pngfind-2-transparent.png"></img>
-            <p>Galactus la parde</p> -->
-          </div>
-        </div>
-        <div class="product-box-3 col-4">
-          <div
-            class="wrapper-content-3 shadow-lg rounded"
-            style="background-color: #fafafa"
-          >
-            <!-- <img src="./assets/images/pngfind-3-transparent.png"></img>
-            <p>Galactus la parde</p> -->
-          </div>
-        </div>
-      </div>
-    `;
+    let btnReset = document.querySelector('.resetting');
+    btnReset.addEventListener('click',function(){
+      document.querySelector('.list-product .tulisan-product .input').value = '';
+    });
 
     let button = document.querySelector('.searching');
     button.addEventListener('click',searchMe);
