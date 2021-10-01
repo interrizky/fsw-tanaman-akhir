@@ -43,128 +43,26 @@
           </div>
         </div>
       </div>
-      <div class="row list-product">
-        <div class="tulisan-product">
-          <p class="tulisan" style="font-size: 24px;">Products</p>
-          <input class="input form-control" type="text" style="margin-bottom: 20px;" placeholder="Search Your Movie Title Here..."></input>
-          <button type="button" class="searching btn btn-outline-danger btn-lg mb-5">Search</button>       
-          <button type="reset" class="resetting btn btn-outline-dark btn-lg mb-5">Reset</button>       
-        </div>
-        <div class="isian-product">
-          <!-- baris pertama -->
-          <div class="row baris-pertama baris1" style="margin-bottom: 5%">
-            <div class="product-box-1 col-4">
-              <div
-                class="wrapper-content-1 shadow-lg rounded"
-                style="background-color: #fafafa"
-              >
-                <!-- <img src="./assets/images/pngfind-1-transparent.png"></img>
-                <p>Galactus la parde</p> -->
-              </div>
-            </div>
-            <div class="product-box-2 col-4">
-              <div
-                class="wrapper-content-2 shadow-lg rounded"
-                style="background-color: #fafafa"
-              >
-                <!-- <img src="./assets/images/pngfind-2-transparent.png"></img>
-                <p>Galactus la parde</p> -->
-              </div>
-            </div>
-            <div class="product-box-3 col-4">
-              <div
-                class="wrapper-content-3 shadow-lg rounded"
-                style="background-color: #fafafa"
-              >
-                <!-- <img src="./assets/images/pngfind-3-transparent.png"></img>
-                <p>Galactus la parde</p> -->
-              </div>
-            </div>
-          </div>
-          <!-- baris kedua -->
-          <div class="row baris-kedua baris2" style="margin-bottom: 5%">
-            <div class="product-box-4 col-4">
-              <div
-                class="wrapper-content-4 shadow-lg rounded"
-                style="background-color: #fafafa"
-              >
-                <!-- <img src="./assets/images/pngfind-4-transparent.png"></img>
-                <p>Galactus la parde</p> -->
-              </div>
-            </div>
-            <div class="product-box-5 col-4">
-              <div
-                class="wrapper-content-5 shadow-lg rounded"
-                style="background-color: #fafafa"
-              >
-                <!-- <img src="./assets/images/pngfind-5-transparent.png"></img>
-                <p>Galactus la parde</p> -->
-              </div>
-            </div>
-            <div class="product-box-6 col-4">
-              <div
-                class="wrapper-content-6 shadow-lg rounded"
-                style="background-color: #fafafa"
-              >
-                <!-- <img src="./assets/images/pngfind-6-transparent.png"></img>
-                <p>Galactus la parde</p> -->
-              </div>
-            </div>
-          </div>
-          <!-- baris ketiga -->
-          <div class="row baris-ketiga baris3" style="margin-bottom: 5%">
-            <div class="product-box-7 col-4">
-              <div
-                class="wrapper-content-7 shadow-lg rounded"
-                style="background-color: #fafafa"
-              >
-                <!-- <img src="./assets/images/pngfind-7-transparent.png"></img>
-                <p>Galactus la parde</p> -->
-              </div>
-            </div>
-            <div class="product-box-8 col-4">
-              <div
-                class="wrapper-content-8 shadow-lg rounded"
-                style="background-color: #fafafa"
-              >
-                <!-- <img src="./assets/images/pngfind-8-transparent.png"></img>
-                <p>Galactus la parde</p> -->
-              </div>
-            </div>
-            <div class="product-box-9 col-4">
-              <div
-                class="wrapper-content-9 shadow-lg rounded"
-                style="background-color: #fafafa"
-              >
-                <!-- <img src="./assets/images/pngfind-9-transparent.png"></img>
-                <p>Galactus la parde</p> -->
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="page-product" style="margin-top: 15px">
-          <ol
-            class="pagination"
-            style="
-              display: flex;
-              justify-content: center;
-              align-items: center;
-              text-align: center;
-            "
-          >
-            <li
-              class="page"
-              onClick="myFunction()"
-              style="margin: 10px"
-              value="1"
-            >
-              1
-            </li>
-            <li class="page" style="margin: 10px" value="2">2</li>
-            <li class="page" style="margin: 10px" value="3">3</li>
-          </ol>
+      <div class="row judul-search-product" style="text-align: center;">
+        <p class="preambule col-md-12" style="font-size: 24px; margin-top:24px">PRODUCTS</p>
+        <div class="search-form col-md-12">
+          <input class="inputan form-control mx-auto w-50" type="text" style="margin-bottom: 20px;" placeholder="Search Your Favorite Movie Here..."></input>
+          <button type="button" class="searching btn btn-outline-danger btn-lg mb-3">Search</button>       
+          <button type="reset" class="resetting btn btn-outline-dark btn-lg mb-3">Reset</button>                 
         </div>
       </div>
+      <div class="row list-products">
+
+      </div> 
+      <div class="row page-number">
+        <ol class="ordered-page">
+          <li>1</li>
+          <li>2</li>
+          <li>3</li>
+          <li>4</li>
+        </ol>
+      </div>
+
       <div class="row footer">
         <div class="menu-footer d-flex flex-row-reverse align-items-center">
           <div class="p-2 bd-highlight">Home</div>
@@ -176,48 +74,50 @@
   </body>
 
   <script type="text/javascript">
-    let btnReset = document.querySelector('.resetting');
-    btnReset.addEventListener('click',function(){
-      document.querySelector('.list-product .tulisan-product .input').value = '';
-    });
+    /* define row list-products karena sering dipake  */
+    let listProducts = document.querySelector('.list-products');
+    // let inputanText = document.querySelector('.judul-search-product .search-form .inputan').value;    
 
-    let button = document.querySelector('.searching');
-    button.addEventListener('click',searchMe);
+    /* populate kotak wrapper pake API */
+    let searching = document.querySelector('.judul-search-product .search-form .searching');
+    let inputanText = document.querySelector('.judul-search-product .search-form .inputan');
 
-    function searchMe() {
-      let inputText = document.querySelector('.list-product .tulisan-product .input').value;
-      // console.log(inputText);  
-      if (inputText != "") {
-        fetch('http://www.omdbapi.com/?apikey=54ece844&s='+inputText)
-          .then(function (response) {
-            return response.json()
-          })
-          .then(function (result) {
-            let data = result
-            let dataSembilan = []
+    searchMe();
 
-            for (let j = 0; j <= 8; j++) {
-              dataSembilan[j] = data.Search[j]
-            }
+    searching.addEventListener('click', searchClicked);
 
-            for (let i = 0; i <= dataSembilan.length; i++) {
-              let getWrapperContent = document.querySelector(
-                '.list-product .isian-product .row .product-box-' +
-                  (i + 1) +
-                  ' .wrapper-content-' +
-                  (i + 1)
-              )
-              getWrapperContent.innerHTML += `
-                <img src="${dataSembilan[i].Poster}"></img>
-                <p class="text-wrap">${dataSembilan[i].Title}</p>
-              `
-            }
-          })
-          .catch(function (error) {
-            console.log(error)
-          })
-      }
+    function searchClicked() {
+      let params = inputanText.value;
+      listProducts.innerHTML = '';
+      searchMe(params);
     }
+
+    function searchMe(lookUp = 'world') {
+      fetch('http://www.omdbapi.com/?apikey=54ece844&s='+lookUp)
+        .then(function (response) {
+          return response.json();
+        })
+        .then(function (result) {
+          for(let z=0; z < result.Search.length; z++) {
+            console.log(result)
+            listProducts.innerHTML += `
+              <div class="kotak-wrapper wrapper-product-` +(z+1)+ ` shadow-lg rounded col-4" style="background-color: #fafafa"">
+                <img src="${result.Search[z].Poster}" style="width:200px; height:175px"></img>
+                <p class="text-wrap" style="margin-top: 16px;">${result.Search[z].Title} (${result.Search[z].Year}) </p>
+              </div>      
+            `;                   
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        })
+    }
+
+    /* reset inputan text */
+    let btnReset = document.querySelector('.judul-search-product .search-form .resetting');
+    btnReset.addEventListener('click',function(){
+      document.querySelector('.judul-search-product .search-form .inputan').value = '';
+    });    
   
     var textLogo = document.querySelector('.navbar .logo .text-logo')
     // console.log(textLogo);
@@ -249,7 +149,7 @@
           i
       )
 
-      test[i].addEventListener('mouseover', hoveringIn)
+      // test[i].addEventListener('mouseover', hoveringIn)
       function hoveringIn() {
         test[i].style.cssText =
           'background-color: grey; opacity: 30%; position: absolute'
