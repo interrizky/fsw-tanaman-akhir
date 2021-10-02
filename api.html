@@ -74,7 +74,7 @@
   </body>
 
   <script type="text/javascript">
-    /* define row list-products karena sering dipake  */
+    /* define karena sering dipake  */
     let listProducts = document.querySelector('.list-products');
     let inputanText = document.querySelector('.judul-search-product .search-form .inputan');    
     let searching = document.querySelector('.judul-search-product .search-form .searching');
@@ -89,9 +89,10 @@
       searchMe(params);
     }
 
-    function searchMe(lookUp = 'world') {
+    function searchMe(lookUp = 'world', page = 1) {
       this.lookUp = lookUp;
-      fetch('http://www.omdbapi.com/?apikey=54ece844&s='+this.lookUp)
+      this.page = page;
+      fetch('http://www.omdbapi.com/?apikey=54ece844&s='+ this.lookUp +'&page='+ this.page)
         .then(function (response) {
           this.response = response;
           return this.response.json();
@@ -101,41 +102,24 @@
           for(let z=0; z < this.result.Search.length; z++) {
             /* populate kotak wrapper pake iterasi jumlah data via API call */            
             listProducts.innerHTML += `
-              <div class="kotak-wrapper wrapper-product-` +(z+1)+ ` shadow-lg rounded col-4" style="background-color: #fafafa">
-                <div class="display-depan dsp-foreground-` +(z+1)+ `">
+              <div class="kotak-wrapper wrapper-product-` +(z+1)+ ` shadow-lg rounded col-4" style="background-color: #fafafa;">
+                <div id="dsp-foreground-${z+1}" class="display-depan dsp-foreground-` +(z+1)+ `" style="position: absolute;">
                   <img src="${this.result.Search[z].Poster}" style="width:200px; height:175px"></img>
                   <p class="text-wrap" style="margin-top: 16px;">${this.result.Search[z].Title} (${this.result.Search[z].Year})</p>                  
                 </div>
-              </div>      
+                <div id="dsp-background-${z+1}" class="dsp-background-${z+1}" style="position: relative; display: none;">
+                  <button class="tombol-info-${z+1}" btn btn-light w-100">Info</button>
+                </div>                        
+              </div>                  
             `;
 
-            /* masukkan fungsi mouseover */
-            let eventForeGround = document.querySelector('.list-products .wrapper-product-' +(z+1)+ ' .dsp-foreground-' +(z+1));
-            console.log(eventForeGround);
-            eventForeGround.addEventListener('mouseover', stylus);
+            /* fungsi bikin div-button-info dan set opacity */
+            // let eventForeGroundSatu = document.querySelector('.list-products .wrapper-product-' +(z+1)+ ' .dsp-foreground-' +(z+1));
 
-            function stylus() {
-              /* create div button using append instead of innerHTML */
-              let newDiv = document.createElement('div')
-              newDiv.className = 'dsp-background-' +(z+1);
-              newDiv.id = 'dsp-background-' +(z+1);
-              newDiv.style.cssText = 'position: relative'
-
-              let newChildDiv = document.createElement('button')
-              newChildDiv.className = 'btn btn-light w-100'
-              newChildDiv.textContent = 'Info'
-              newDiv.appendChild(newChildDiv)
-              
-              document.querySelector('.wrapper-product-' +(z+1)).appendChild(newDiv);
-              
-              /* set foreground position and opacity */
-              eventForeGround.style.cssText = 'background-color: grey; opacity: 30%; position: absolute';
-            }
-            // eventForeGround.style.cssText += 'background-color: grey; opacity: 30%; position: absolute';
-            // // create div button using append instead of innerHTML
+            /* create div button using append instead of innerHTML */
             // let newDiv = document.createElement('div')
-            // newDiv.className = 'demo-content'
-            // newDiv.id = 'demo-content'
+            // newDiv.className = 'dsp-background-' +(z+1);
+            // newDiv.id = 'dsp-background-' +(z+1);
             // newDiv.style.cssText = 'position: relative'
 
             // let newChildDiv = document.createElement('button')
@@ -144,8 +128,9 @@
             // newDiv.appendChild(newChildDiv)
             
             // document.querySelector('.wrapper-product-' +(z+1)).appendChild(newDiv);
-
-            /* masukkan fungsi mouseout */                  
+            
+            /* set foreground position and opacity */
+            // eventForeGroundSatu.style.cssText = 'background-color: grey; opacity: 30%; position: absolute';
           }
         })
         .catch(function (error) {
