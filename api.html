@@ -101,17 +101,71 @@
           this.result = result;
           for(let z=0; z < this.result.Search.length; z++) {
             /* populate kotak wrapper pake iterasi jumlah data via API call */            
-            listProducts.innerHTML += `
-              <div class="kotak-wrapper wrapper-product-` +(z+1)+ ` shadow-lg rounded col-4" style="background-color: #fafafa;">
-                <div id="dsp-foreground-${z+1}" class="display-depan dsp-foreground-` +(z+1)+ `" style="position: absolute;">
-                  <img src="${this.result.Search[z].Poster}" style="width:200px; height:175px"></img>
-                  <p class="text-wrap" style="margin-top: 16px;">${this.result.Search[z].Title} (${this.result.Search[z].Year})</p>                  
-                </div>
-                <div id="dsp-background-${z+1}" class="dsp-background-${z+1}" style="position: relative; display: none;">
-                  <button class="tombol-info-${z+1}" btn btn-light w-100">Info</button>
-                </div>                        
-              </div>                  
-            `;
+            // listProducts.innerHTML += `
+            //   <div class="kotak-wrapper wrapper-product-` +(z+1)+ ` shadow-lg rounded col-4" style="background-color: #fafafa;">
+            //     <div id="dsp-foreground-${z+1}" class="display-depan dsp-foreground-` +(z+1)+ `" style="position: absolute;">
+            //       <img src="${this.result.Search[z].Poster}" style="width:200px; height:175px"></img>
+            //       <p class="text-wrap" style="margin-top: 16px;">${this.result.Search[z].Title} (${this.result.Search[z].Year})</p>                  
+            //     </div>
+            //     <div id="dsp-background-${z+1}" class="dsp-background-${z+1}" style="position: relative; display: none;">
+            //       <button class="tombol-info-${z+1}" btn btn-light w-100">Info</button>
+            //     </div>                        
+            //   </div>                  
+            // `;
+            /* populate kotak wrapper pake iterasi append appendChild via API call */
+            let newDivSatu = document.createElement('div');
+            newDivSatu.className = 'kotak-wrapper wrapper-product-' +(z+1)+ ' shadow-lg rounded col-4';
+            newDivSatu.style.cssText = 'background-color: #fafafa;';
+
+            listProducts.appendChild(newDivSatu);
+
+            let pointerDivSatu = document.querySelector('.wrapper-product-' +(z+1));
+            let newDivDuaSatu = document.createElement('div');
+            newDivDuaSatu.id = 'dsp-foreground-'+(z+1);
+            newDivDuaSatu.className = 'display-depan dsp-foreground-' +(z+1);
+            newDivDuaSatu.style.cssText = 'position: absolute;';
+            
+            pointerDivSatu.appendChild(newDivDuaSatu);
+
+            let pointerDivDuaSatu = document.querySelector('.dsp-foreground-' +(z+1));
+            let newImage = document.createElement('img');
+            newImage.src = this.result.Search[z].Poster;
+            newImage.style.cssText = 'width:200px; height:175px';
+
+            pointerDivDuaSatu.appendChild(newImage);
+
+            let newP = document.createElement('p');
+            newP.className = 'text-wrap';
+            newP.style.cssText = 'margin-top: 16px;';
+            newP.textContent = (this.result.Search[z].Title) + '(' + (this.result.Search[z].Year) +')';
+            pointerDivDuaSatu.appendChild(newP);
+
+            let newDivDuaDua = document.createElement('div');
+            newDivDuaDua.id = 'dsp-background-'+(z+1);
+            newDivDuaDua.className = 'dsp-background-'+(z+1); 
+            newDivDuaDua.style.cssText = 'position: relative; display: none;';
+
+            pointerDivSatu.appendChild(newDivDuaDua);
+
+            let pointerDivDuaDua = document.querySelector('.dsp-background-'+(z+1));
+            let newButton = document.createElement('button');
+            newButton.className = 'tombol-info-' +(z+1)+ ' btn btn-light w-100';
+            newButton.textContent = 'Info';
+
+            pointerDivDuaDua.appendChild(newButton);
+            /* end populate kotak wrapper pake iterasi append appendChild via API call */
+
+            pointerDivSatu.addEventListener('mouseover', function(){
+              // console.log('hover lewat');
+              pointerDivDuaSatu.style.cssText += 'background-color: grey; opacity: 30%;';
+              pointerDivDuaDua.style.cssText = 'position: relative;';
+            });
+
+            pointerDivSatu.addEventListener('mouseout', function(){
+              // console.log('hover pergi');
+              pointerDivDuaSatu.style.cssText = 'position: absolute;';
+              pointerDivDuaDua.style.cssText = 'position: relative; display: none;';              
+            });            
 
             /* fungsi bikin div-button-info dan set opacity */
             // let eventForeGroundSatu = document.querySelector('.list-products .wrapper-product-' +(z+1)+ ' .dsp-foreground-' +(z+1));
