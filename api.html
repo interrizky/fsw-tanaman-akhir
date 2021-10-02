@@ -46,7 +46,7 @@
       <div class="row judul-search-product" style="text-align: center;">
         <p class="preambule col-md-12" style="font-size: 24px; margin-top:24px">PRODUCTS</p>
         <div class="search-form col-md-12">
-          <input class="inputan form-control mx-auto w-50" type="text" style="margin-bottom: 20px;" placeholder="Search Your Favorite Movie Here..."></input>
+          <input class="inputan form-control mx-auto w-50" type="text" style="margin-bottom: 20px;" placeholder="What is Your Favorite Movie??"></input>
           <button type="button" class="searching btn btn-outline-danger btn-lg mb-3">Search</button>       
           <button type="reset" class="resetting btn btn-outline-dark btn-lg mb-3">Reset</button>                 
         </div>
@@ -76,11 +76,8 @@
   <script type="text/javascript">
     /* define row list-products karena sering dipake  */
     let listProducts = document.querySelector('.list-products');
-    // let inputanText = document.querySelector('.judul-search-product .search-form .inputan').value;    
-
-    /* populate kotak wrapper pake API */
+    let inputanText = document.querySelector('.judul-search-product .search-form .inputan');    
     let searching = document.querySelector('.judul-search-product .search-form .searching');
-    let inputanText = document.querySelector('.judul-search-product .search-form .inputan');
 
     searchMe();
 
@@ -93,19 +90,40 @@
     }
 
     function searchMe(lookUp = 'world') {
-      fetch('http://www.omdbapi.com/?apikey=54ece844&s='+lookUp)
+      this.lookUp = lookUp;
+      fetch('http://www.omdbapi.com/?apikey=54ece844&s='+this.lookUp)
         .then(function (response) {
           return response.json();
         })
         .then(function (result) {
           for(let z=0; z < result.Search.length; z++) {
-            console.log(result)
+            // console.log(result)
+            /* populate kotak wrapper pake iterasi jumlah data via API call */            
             listProducts.innerHTML += `
               <div class="kotak-wrapper wrapper-product-` +(z+1)+ ` shadow-lg rounded col-4" style="background-color: #fafafa"">
-                <img src="${result.Search[z].Poster}" style="width:200px; height:175px"></img>
-                <p class="text-wrap" style="margin-top: 16px;">${result.Search[z].Title} (${result.Search[z].Year}) </p>
+                <div class="display-depan dsp-foreground-` +(z+1)+ `">
+                  <img src="${result.Search[z].Poster}" style="width:200px; height:175px"></img>
+                  <p class="text-wrap" style="margin-top: 16px;">${result.Search[z].Title} (${result.Search[z].Year})</p>                  
+                </div>
               </div>      
-            `;                   
+            `;
+            /* masukkan fungsi mouseover */
+            let eventForeGround = document.querySelector('.wrapper-product-' +(z+1)+ ' .dsp-foreground-' +(z+1));
+            eventForeGround.style.cssText += 'background-color: grey; opacity: 30%; position: absolute';
+            // create div button using append instead of innerHTML
+            let newDiv = document.createElement('div')
+            newDiv.className = 'demo-content'
+            newDiv.id = 'demo-content'
+            newDiv.style.cssText = 'position: relative'
+
+            let newChildDiv = document.createElement('button')
+            newChildDiv.className = 'btn btn-light w-100'
+            newChildDiv.textContent = 'Info'
+            newDiv.appendChild(newChildDiv)
+            
+            document.querySelector('.wrapper-product-' +(z+1)).appendChild(newDiv);
+            
+            /* masukkan fungsi mouseout */                  
           }
         })
         .catch(function (error) {
@@ -113,13 +131,29 @@
         })
     }
 
+    // listProducts.addEventListener('mouseover', function(){
+    //   listProducts.style.cssText = 'background-color: grey; opacity: 30%; position: absolute';
+    //   /* create div button using append instead of innerHTML */
+    //   let newDiv = document.createElement('div')
+    //   newDiv.className = 'demo-content'
+    //   newDiv.id = 'demo-content'
+    //   newDiv.style.cssText = 'position: relative'
+
+    //   let newChildDiv = document.createElement('button')
+    //   newChildDiv.className = 'btn btn-info w-100'
+    //   newChildDiv.textContent = 'Info'
+    //   newDiv.appendChild(newChildDiv)
+
+    //   testProductBox[i].appendChild(newDiv)      
+    // });
+
     /* reset inputan text */
     let btnReset = document.querySelector('.judul-search-product .search-form .resetting');
     btnReset.addEventListener('click',function(){
       document.querySelector('.judul-search-product .search-form .inputan').value = '';
     });    
   
-    var textLogo = document.querySelector('.navbar .logo .text-logo')
+    // var textLogo = document.querySelector('.navbar .logo .text-logo')
     // console.log(textLogo);
     /* cara 1 -- langsung jalan tanpa diklik */
     // textLogo.addEventListener('click', function() {
@@ -131,49 +165,49 @@
     //   console.log('click dari Logo');
     // }
     /* cara 3 -- bikin function trus masukin ke html trus kasi onCLick() */
-    function coba() {
-      console.log('click dari Logo')
-    }
+    // function coba() {
+    //   console.log('click dari Logo')
+    // }
 
     /* hovering in */
-    for (let i = 1; i <= 9; i++) {
-      let testProductBox = []
-      let test = []
-      testProductBox[i] = document.querySelector(
-        '.list-product .isian-product .row .product-box-' + i
-      )
-      test[i] = document.querySelector(
-        '.list-product .isian-product .row .product-box-' +
-          i +
-          ' .wrapper-content-' +
-          i
-      )
+    // for (let i = 1; i <= 9; i++) {
+    //   let testProductBox = []
+    //   let test = []
+    //   testProductBox[i] = document.querySelector(
+    //     '.list-product .isian-product .row .product-box-' + i
+    //   )
+    //   test[i] = document.querySelector(
+    //     '.list-product .isian-product .row .product-box-' +
+    //       i +
+    //       ' .wrapper-content-' +
+    //       i
+    //   )
 
       // test[i].addEventListener('mouseover', hoveringIn)
-      function hoveringIn() {
-        test[i].style.cssText =
-          'background-color: grey; opacity: 30%; position: absolute'
+    //   function hoveringIn() {
+    //     test[i].style.cssText =
+    //       'background-color: grey; opacity: 30%; position: absolute'
 
-        // testProductBox[i].innerHTML += `
-        //   <div class="demo-content" style="position: relative;">
-        //     <button type="button" class="btn btn-info w-100">Info</button>
-        //   </div>
-        // `
+    //     // testProductBox[i].innerHTML += `
+    //     //   <div class="demo-content" style="position: relative;">
+    //     //     <button type="button" class="btn btn-info w-100">Info</button>
+    //     //   </div>
+    //     // `
 
-        /* create div button using append instead of innerHTML */
-        let newDiv = document.createElement('div')
-        newDiv.className = 'demo-content'
-        newDiv.id = 'demo-content'
-        newDiv.style.cssText = 'position: relative'
+    //     /* create div button using append instead of innerHTML */
+    //     let newDiv = document.createElement('div')
+    //     newDiv.className = 'demo-content'
+    //     newDiv.id = 'demo-content'
+    //     newDiv.style.cssText = 'position: relative'
 
-        let newChildDiv = document.createElement('button')
-        newChildDiv.className = 'btn btn-info w-100'
-        newChildDiv.textContent = 'Info'
-        newDiv.appendChild(newChildDiv)
+    //     let newChildDiv = document.createElement('button')
+    //     newChildDiv.className = 'btn btn-info w-100'
+    //     newChildDiv.textContent = 'Info'
+    //     newDiv.appendChild(newChildDiv)
 
-        testProductBox[i].appendChild(newDiv)
-      }
-    }
+    //     testProductBox[i].appendChild(newDiv)
+    //   }
+    // }
 
     /* hovering out */
     for (let i = 1; i <= 9; i++) {
