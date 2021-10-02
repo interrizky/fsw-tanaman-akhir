@@ -93,59 +93,66 @@
       this.lookUp = lookUp;
       fetch('http://www.omdbapi.com/?apikey=54ece844&s='+this.lookUp)
         .then(function (response) {
-          return response.json();
+          this.response = response;
+          return this.response.json();
         })
         .then(function (result) {
-          for(let z=0; z < result.Search.length; z++) {
-            // console.log(result)
+          this.result = result;
+          for(let z=0; z < this.result.Search.length; z++) {
             /* populate kotak wrapper pake iterasi jumlah data via API call */            
             listProducts.innerHTML += `
-              <div class="kotak-wrapper wrapper-product-` +(z+1)+ ` shadow-lg rounded col-4" style="background-color: #fafafa"">
+              <div class="kotak-wrapper wrapper-product-` +(z+1)+ ` shadow-lg rounded col-4" style="background-color: #fafafa">
                 <div class="display-depan dsp-foreground-` +(z+1)+ `">
-                  <img src="${result.Search[z].Poster}" style="width:200px; height:175px"></img>
-                  <p class="text-wrap" style="margin-top: 16px;">${result.Search[z].Title} (${result.Search[z].Year})</p>                  
+                  <img src="${this.result.Search[z].Poster}" style="width:200px; height:175px"></img>
+                  <p class="text-wrap" style="margin-top: 16px;">${this.result.Search[z].Title} (${this.result.Search[z].Year})</p>                  
                 </div>
               </div>      
             `;
-            /* masukkan fungsi mouseover */
-            let eventForeGround = document.querySelector('.wrapper-product-' +(z+1)+ ' .dsp-foreground-' +(z+1));
-            eventForeGround.style.cssText += 'background-color: grey; opacity: 30%; position: absolute';
-            // create div button using append instead of innerHTML
-            let newDiv = document.createElement('div')
-            newDiv.className = 'demo-content'
-            newDiv.id = 'demo-content'
-            newDiv.style.cssText = 'position: relative'
 
-            let newChildDiv = document.createElement('button')
-            newChildDiv.className = 'btn btn-light w-100'
-            newChildDiv.textContent = 'Info'
-            newDiv.appendChild(newChildDiv)
+            /* masukkan fungsi mouseover */
+            let eventForeGround = document.querySelector('.list-products .wrapper-product-' +(z+1)+ ' .dsp-foreground-' +(z+1));
+            console.log(eventForeGround);
+            eventForeGround.addEventListener('mouseover', stylus);
+
+            function stylus() {
+              /* create div button using append instead of innerHTML */
+              let newDiv = document.createElement('div')
+              newDiv.className = 'dsp-background-' +(z+1);
+              newDiv.id = 'dsp-background-' +(z+1);
+              newDiv.style.cssText = 'position: relative'
+
+              let newChildDiv = document.createElement('button')
+              newChildDiv.className = 'btn btn-light w-100'
+              newChildDiv.textContent = 'Info'
+              newDiv.appendChild(newChildDiv)
+              
+              document.querySelector('.wrapper-product-' +(z+1)).appendChild(newDiv);
+              
+              /* set foreground position and opacity */
+              eventForeGround.style.cssText = 'background-color: grey; opacity: 30%; position: absolute';
+            }
+            // eventForeGround.style.cssText += 'background-color: grey; opacity: 30%; position: absolute';
+            // // create div button using append instead of innerHTML
+            // let newDiv = document.createElement('div')
+            // newDiv.className = 'demo-content'
+            // newDiv.id = 'demo-content'
+            // newDiv.style.cssText = 'position: relative'
+
+            // let newChildDiv = document.createElement('button')
+            // newChildDiv.className = 'btn btn-light w-100'
+            // newChildDiv.textContent = 'Info'
+            // newDiv.appendChild(newChildDiv)
             
-            document.querySelector('.wrapper-product-' +(z+1)).appendChild(newDiv);
-            
+            // document.querySelector('.wrapper-product-' +(z+1)).appendChild(newDiv);
+
             /* masukkan fungsi mouseout */                  
           }
         })
         .catch(function (error) {
-          console.log(error);
+          this.error = error;
+          console.log(this.error);
         })
     }
-
-    // listProducts.addEventListener('mouseover', function(){
-    //   listProducts.style.cssText = 'background-color: grey; opacity: 30%; position: absolute';
-    //   /* create div button using append instead of innerHTML */
-    //   let newDiv = document.createElement('div')
-    //   newDiv.className = 'demo-content'
-    //   newDiv.id = 'demo-content'
-    //   newDiv.style.cssText = 'position: relative'
-
-    //   let newChildDiv = document.createElement('button')
-    //   newChildDiv.className = 'btn btn-info w-100'
-    //   newChildDiv.textContent = 'Info'
-    //   newDiv.appendChild(newChildDiv)
-
-    //   testProductBox[i].appendChild(newDiv)      
-    // });
 
     /* reset inputan text */
     let btnReset = document.querySelector('.judul-search-product .search-form .resetting');
@@ -167,170 +174,6 @@
     /* cara 3 -- bikin function trus masukin ke html trus kasi onCLick() */
     // function coba() {
     //   console.log('click dari Logo')
-    // }
-
-    /* hovering in */
-    // for (let i = 1; i <= 9; i++) {
-    //   let testProductBox = []
-    //   let test = []
-    //   testProductBox[i] = document.querySelector(
-    //     '.list-product .isian-product .row .product-box-' + i
-    //   )
-    //   test[i] = document.querySelector(
-    //     '.list-product .isian-product .row .product-box-' +
-    //       i +
-    //       ' .wrapper-content-' +
-    //       i
-    //   )
-
-      // test[i].addEventListener('mouseover', hoveringIn)
-    //   function hoveringIn() {
-    //     test[i].style.cssText =
-    //       'background-color: grey; opacity: 30%; position: absolute'
-
-    //     // testProductBox[i].innerHTML += `
-    //     //   <div class="demo-content" style="position: relative;">
-    //     //     <button type="button" class="btn btn-info w-100">Info</button>
-    //     //   </div>
-    //     // `
-
-    //     /* create div button using append instead of innerHTML */
-    //     let newDiv = document.createElement('div')
-    //     newDiv.className = 'demo-content'
-    //     newDiv.id = 'demo-content'
-    //     newDiv.style.cssText = 'position: relative'
-
-    //     let newChildDiv = document.createElement('button')
-    //     newChildDiv.className = 'btn btn-info w-100'
-    //     newChildDiv.textContent = 'Info'
-    //     newDiv.appendChild(newChildDiv)
-
-    //     testProductBox[i].appendChild(newDiv)
-    //   }
-    // }
-
-    /* hovering out */
-    for (let i = 1; i <= 9; i++) {
-      let testProductBox = []
-      let test = []
-      let demoContent = []
-      testProductBox[i] = document.querySelector(
-        '.list-product .isian-product .row .product-box-' + i
-      )
-      test[i] = document.querySelector(
-        '.list-product .isian-product .row .product-box-' +
-          i +
-          ' .wrapper-content-' +
-          i
-      )
-      demoContent[i] = document.querySelector(
-        '.list-product .isian-product .row .product-box-' + i + ' .demo-content'
-      )
-
-      // console.log(demoContent[i])
-
-      // test[i].addEventListener('mouseout', hoveringOut);
-      // function hoveringOut() {
-      //   console.log(demoContent[i]);
-      //   demoContent[i].remove();
-      //   test[i].display.style = '';
-      //   test[i].style.cssText = 'background-color: grey; opacity: 30%; position: absolute';
-      //   testProductBox[i].innerHTML += `
-      //     <div class="demo-content" style="position: relative;">
-      //       <button type="button" class="btn btn-info w-100">Info</button>
-      //     </div>
-      //   `
-      //   console.log(testProductBox[i]);
-      //   console.log(test[i]);
-      // }
-    }
-
-    // let testA = document.querySelector('.list-product .isian-product .row .product-box-1 .wrapper-content-1');
-    // let testProductBoxA = document.querySelector('.list-product .isian-product .row .product-box-1');
-    // testA.addEventListener('mouseover', testingA);
-    // function testingA(){
-    //   testA.style.cssText = 'background-color: grey; opacity: 30%; position: absolute';
-    //   testProductBoxA.innerHTML += `
-    //     <div class="demo-content" style="position: relative;">
-    //       <button type="button" class="btn btn-info w-100">Info</button>
-    //     </div>
-    //   `
-    // }
-
-    // let testB = document.querySelector('.list-product .isian-product .row .product-box-2 .wrapper-content-2');
-    // let testProductBoxB = document.querySelector('.list-product .isian-product .row .product-box-2');
-    // testB.addEventListener('mouseover', testingB);
-    // function testingB(){
-    //   testB.style.cssText = 'background-color: grey; opacity: 30%; position: absolute';
-    //   testProductBoxB.innerHTML += `
-    //     <div class="demo-content" style="position: relative;">
-    //       <button type="button" class="btn btn-info w-100">Info</button>
-    //     </div>
-    //   `
-    // }
-
-    // let testC = document.querySelector('.list-product .isian-product .row .product-box-3 .wrapper-content-3');
-    // let testProductBoxC = document.querySelector('.list-product .isian-product .row .product-box-3');
-    // testC.addEventListener('mouseover', testingC);
-    // function testingC(){
-    //   testC.style.cssText = 'background-color: grey; opacity: 30%; position: absolute';
-    //   testProductBoxC.innerHTML += `
-    //     <div class="demo-content" style="position: relative;">
-    //       <button type="button" class="btn btn-info w-100">Info</button>
-    //     </div>
-    //   `
-    // }
-
-    // <div class="card card-body shadow-lg rounded" style="background-color:#FAFAFA;">
-    //   <img src="./assets/images/pngfind-1.jpg"></img>
-    //   <br/>
-    //   <p class="card-text">Galactus la parde</p>
-    // </div>
-
-    // let hoverProduct = document.querySelector('.list-product .isian-product .row .product-box .card');
-    // let imgHover = document.querySelector('.list-product .isian-product .row .product-box .card img');
-    // let txtHover = document.querySelector('.list-product .isian-product .row .product-box .card p');
-
-    // imgHover.addEventListener('mouseover',trialHover);
-    // function trialHover() {
-    //   imgHover.style.cssText = 'opacity: 30%;';
-    //   txtHover.style.cssText = 'visibility: hidden';
-    //   hoverProduct.innerHTML = `
-    //     <div class="demo-wrap" style="overflow: hidden; position: relative;">
-    //       <img class="demo-bg" src="./assets/images/pngfind-1.jpg" style="opacity: 0.6; position: absolute;"></img>
-    //       <div class="demo-content" style="position: relative;">
-    //         <button type="button" class="btn btn-info w-75">Info</button>
-    //       </div>
-    //     </div>
-    //   `;
-    // }
-    // <img src="./assets/images/pngfind-1.jpg" style="opacity: 30%"></img>
-    // <button type="button" class="btn btn-info w-75">Info</button>
-    // <div class="hoverInside" style="width:200px; height:200px;">
-    //   <img src="./assets/images/pngfind-1.jpg" style="opacity: 30%"></img>
-    //   <button type="button" class="btn btn-info w-75">Info</button>
-    // </div>
-
-    // hoverProduct.addEventListener('mouseover', trialOver);
-    // function trialOver() {
-    //   console.log("tada");
-    //   console.log(hoverProduct);
-    // hoverProduct.style.cssText +=
-    //   'width: 234px; display: flex; justify-content: center; align-items: center; background-color: rgba(0,0,0,0.3);'
-    //   // 'position: absolute;' /* Sit on top of the page content */
-    //   // 'display: none;' /* Hidden by default */
-    //   // 'height: 282px;' /* Full height (cover the whole page) */
-    //   // 'top: 0;'
-    //   // 'left: 0;'
-    //   // 'right: 0;'
-    //   // 'bottom: 0;'
-    //   // 'background-color: rgba(0,0,0,0.6);' /* Black background with opacity */
-    //   // 'z-index: 2;' /* Specify a stack order in case you're using a different order for other elements */
-    //   // 'cursor: pointer;' /* Add a pointer on hover */
-    // ;
-    // hoverProduct.innerHTML = `
-    //   <button type="button" class="btn btn-info w-75">Info</button>
-    // `;
     // }
   </script>
 </html>
