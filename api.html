@@ -3,15 +3,12 @@
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Figma Ridho</title>
     <!-- bootstrap -->
     <!-- CSS only -->
-    <link
-      rel="stylesheet"
-      href="./assets/plugins/bootstrap/css/bootstrap.css"
-    />
-    <link rel="stylesheet" href="./assets/css/styles.css" />
+    <link rel="stylesheet" href="./assets/plugins/bootstrap/css/bootstrap.css"/>
+    <link rel="stylesheet" href="./assets/css/styles.css" />    
   </head>
   <body>
     <div class="container-fluid">
@@ -71,6 +68,11 @@
         </div>
       </div>
     </div>
+
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="./assets/js/jquery-3.4.1.slim.min.js"></script>
+    <script src="./assets/js/popper.min.js"></script>
+    <script src="./assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>    
   </body>
 
   <script type="text/javascript">
@@ -85,6 +87,11 @@
 
     function searchClicked() {
       let params = inputanText.value;
+      if(params.length < 3) {
+        alert("Kolom Pencarian Minimal 3 huruf");
+        inputanText.value = "";        
+        params = "world";
+      }
       listProducts.innerHTML = '';
       searchMe(params);
     }
@@ -92,7 +99,7 @@
     function searchMe(lookUp = 'world', page = 1) {
       this.lookUp = lookUp;
       this.page = page;
-      fetch('http://www.omdbapi.com/?apikey=54ece844&s='+ this.lookUp +'&page='+ this.page)
+      fetch('http://www.omdbapi.com/?apikey=54ece844&s='+this.lookUp+'&page='+this.page)
         .then(function (response) {
           this.response = response;
           return this.response.json();
@@ -140,29 +147,83 @@
             newP.textContent = (this.result.Search[z].Title) + ' (' + (this.result.Search[z].Year) +')';
             pointerDivDuaSatu.appendChild(newP);
 
-            let newDivDuaDua = document.createElement('div');
-            newDivDuaDua.id = 'dsp-background-'+(z+1);
-            newDivDuaDua.className = 'dsp-background-'+(z+1); 
-            newDivDuaDua.style.cssText = 'position: relative; display: none;';
+            /* bikin div-button pake insertAdjacentHTML */
+            pointerDivDuaSatu.insertAdjacentHTML('afterend',`
+              <div id="dsp-background-${z+1}" class="dsp-background-${z+1}" style="position: relative; display: none;">
+                <button data-toggle="modal" data-target="#exampleModalCenter-${z+1}" class="tombol-info-${z+1} btn btn-light w-100">Info</button>
+              </div>            
+            `);
+            /* end bikin div-button pake insertAdjacentHTML */
 
-            pointerDivSatu.appendChild(newDivDuaDua);
+            let testingButton = document.querySelector('.dsp-background-'+(z+1));
+            testingButton.addEventListener('click',function(){
+              $('#exampleModalCenter-'+(z+1)).modal('show');
+            });
 
-            let pointerDivDuaDua = document.querySelector('.dsp-background-'+(z+1));
-            let newButton = document.createElement('button');
-            newButton.className = 'tombol-info-' +(z+1)+ ' btn btn-light w-100';
-            newButton.textContent = 'Info';
+            /* bikin div-button pake append - DIDNT WORK FOR MODAL (RIBET JS-nya) */
+            // let newDivDuaDua = document.createElement('div');
+            // newDivDuaDua.id = 'dsp-background-'+(z+1);
+            // newDivDuaDua.className = 'dsp-background-'+(z+1); 
+            // newDivDuaDua.style.cssText = 'position: relative; display: none;';
 
-            pointerDivDuaDua.appendChild(newButton);
+            // pointerDivSatu.appendChild(newDivDuaDua);
+
+            // let pointerDivDuaDua = document.querySelector('.dsp-background-'+(z+1));
+            // let newButton = document.createElement('button');
+            // newButton.className = 'tombol-info-' +(z+1)+ ' btn btn-light w-100';
+            // newButton.textContent = 'Info';
+
+            // pointerDivDuaDua.appendChild(newButton);
             /* end populate kotak wrapper pake iterasi append appendChild via API call */
 
+            let pointerDivDuaDua = document.querySelector('.dsp-background-'+(z+1));
+
+            document.querySelector('.wrapper-product-' +(z+1)).insertAdjacentHTML('beforebegin',`
+            <div class="modal fade" id="exampleModalCenter-${z+1}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title mx-auto" id="exampleModalLongTitle"><i>${ (this.result.Search[z].Title) + ' (' + (this.result.Search[z].Year) +')' }</i></h5>
+                  </div>
+                  <div class="modal-body">
+                    <p class="text-left">IMDB ID: <i>${ this.result.Search[z].imdbID }</i></p>
+                    <p class="text-left">Type: <i>${ this.result.Search[z].Type }</i></p>
+                  </div>
+                </div>
+              </div>
+            </div>    
+            `);
+            
+            /* bikin div modal */
+            // pointerDivDuaDua.insertAdjacentHTML('afterend',`
+            // <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            //   <div class="modal-dialog modal-dialog-centered" role="document">
+            //     <div class="modal-content">
+            //       <div class="modal-header">
+            //         <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+            //         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            //           <span aria-hidden="true">&times;</span>
+            //         </button>
+            //       </div>
+            //       <div class="modal-body">
+            //         ...
+            //       </div>
+            //       <div class="modal-footer">
+            //         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            //         <button type="button" class="btn btn-primary">Save changes</button>
+            //       </div>
+            //     </div>
+            //   </div>
+            // </div>
+            // `);
+            /* end bikin div modal */
+
             pointerDivSatu.addEventListener('mouseover', function(){
-              // console.log('hover lewat');
               pointerDivDuaSatu.style.cssText += 'background-color: grey; opacity: 30%;';
               pointerDivDuaDua.style.cssText = 'position: relative;';
             });
 
             pointerDivSatu.addEventListener('mouseout', function(){
-              // console.log('hover pergi');
               pointerDivDuaSatu.style.cssText = 'position: absolute;';
               pointerDivDuaDua.style.cssText = 'position: relative; display: none;';              
             });            
@@ -196,7 +257,7 @@
     /* reset inputan text */
     let btnReset = document.querySelector('.judul-search-product .search-form .resetting');
     btnReset.addEventListener('click',function(){
-      document.querySelector('.judul-search-product .search-form .inputan').value = '';
+      inputanText.value = '';
     });    
   
     // var textLogo = document.querySelector('.navbar .logo .text-logo')
