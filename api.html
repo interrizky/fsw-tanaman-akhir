@@ -180,20 +180,12 @@
                   rowPageNumber.insertAdjacentHTML('beforeend', `
                     <button id="tombol-${currPageNum+i}" class="tombol-${currPageNum+i} btn-pagination btn btn-outline-dark" style="margin:10px;" value="${currPageNum+i}">${currPageNum+i}</button>
                   `);                                    
-                  // rowPageNumber.insertAdjacentHTML('beforeend', `
-                  //   <li class="page-item"><a class="page-link" value="${currPageNum+i}">${currPageNum+i}</a></li>
-                  // `);
-                  // $('.paginator').append(`<button class="btn btn-primary" value="${currPageNum+i}">${currPageNum+i}</button>`)
                 }
             } else {
                 for (let i=0; i<numberOfPages; i++) {
                   rowPageNumber.insertAdjacentHTML('beforeend', `
                     <button id="tombol-${i+1}" class="tombol-${i+1} btn-pagination btn btn-outline-dark" style="margin:10px;" value="${i+1}">${i+1}</button>
                   `);                                        
-                  // rowPageNumber.insertAdjacentHTML('beforeend', `
-                  //   <li class="page-item"><a class="page-link" value="${i+1}">${i+1}</a></li>
-                  // `);                      
-                  // $('.paginator').append(`<button class="btn btn-primary" value="${i+1}">${i+1}</button>`)                  
                 }
             }
           }
