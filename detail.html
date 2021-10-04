@@ -24,14 +24,14 @@
     
     <div class="row details">
       <div class="wrapper poster-desc col-md-12 p-5 d-flex justify-content-center">
-        <div class="poster-image col-md-4 shadow-lg rounded justify-content-center" style="align-content: center; align-items: center; text-align: center">
-
+        <div class="poster-image col-md-4 m-3 shadow-lg rounded justify-content-center" style="align-content: center; align-items: center; text-align: center; background-color: lightsteelblue;">
+        
         </div>
-        <div class="teks-deskripsi col-md-8 shadow-lg rounded" style="align-content: center; align-items: center; text-align: left">
-          <div class="deskripsi">
+        <div class="teks-deskripsi col-md-8 m-3 shadow-lg rounded" style="align-content: center; align-items: center; text-align: left; background-color: lightsteelblue;">
+          <div class="deskripsi p-5">
 
           </div>
-        </div>
+        </div>        
       </div>
     </div>      
 
@@ -55,33 +55,42 @@
       return response.json();
     })
     .then(function (result) { 
+      console.log(result);
       /* poster */
       if(result.Poster == "N/A") {
         result.Poster = './assets/images/pngfind-9-transparent.png';
       }
 
       let images = document.querySelector('.details .poster-image');
+      for(let i = 0; i < result.Ratings.length; i++) {
+        images.insertAdjacentHTML('afterbegin', `
+          <h5><b>${result.Ratings[i].Source} : </b><i>${result.Ratings[i].Value}</i></h5>
+        `);
+      }      
       images.insertAdjacentHTML('afterbegin', `
-        <img src="${result.Poster}" style="width: 75%;"></img>
-      `);
+        <img class="p-3" src="${result.Poster}" style="width: 75%;"></img>
+        <h5><b>${result.Title}</b> (<i>${result.Year}</i>)</h5>
+        <br/>
+      `);      
       
       /* text */
       let deskripsi = document.querySelector('.details .teks-deskripsi .deskripsi');
       deskripsi.insertAdjacentHTML('afterbegin',`
-        <h5>Plot : <i>${result.Plot}</i></h5>
+        <h5><b>Plot : </b><i>${result.Plot}</i></h5>
         <br/>
-        <h5>Actors : ${result.Actors}</h5>
-        <h5>Director : ${result.Director}</h5>
-        <h5>Writer : ${result.Writer}</h5>        
+        <h5><b>Actors : </b>${result.Actors}</h5>
+        <h5><b>Director : </b>${result.Director}</h5>
+        <h5><b>Writer : </b>${result.Writer}</h5> 
+        <h5><b>Production : </b>${result.Production}</h5>        
         <br/>
-        <h5>Year : ${result.Year}</h5>
-        <h5>imdbRatings : ${result.imdbRating}</h5>
+        <h5><b>Year : </b>${result.Year}</h5>
+        <h5><b>DVD : </b>${result.DVD}</h5>        
+        <h5><b>Runtime : </b>${result.Runtime}</h5>
         <br/>        
-        <h5>Awards : ${result.Awards}</h5>
-        <h5>BoxOffice : ${result.BoxOffice}</h5>
-        <h5>Country : ${result.Country}</h5>
-        <h5>DVD : ${result.DVD}</h5>
-        <h5>Genre : ${result.Genre}</h5>
+        <h5><b>Awards : </b>${result.Awards}</h5>
+        <h5><b>BoxOffice : </b>${result.BoxOffice}</h5>
+        <h5><b>Country : </b>${result.Country}</h5>
+        <h5><b>Genre : </b>${result.Genre}</h5>
         <br/>
       `);      
     })
