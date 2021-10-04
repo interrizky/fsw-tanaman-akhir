@@ -84,8 +84,7 @@
       let params = inputanText.value;
       if(params.length < 3) {
         alert("Kolom Pencarian Minimal 3 huruf");
-        inputanText.value = "";        
-        params = "world";
+        params = "world";        
       }
       listProducts.innerHTML = '';
       searchMe(params);
@@ -96,12 +95,19 @@
       this.page = page;
       fetch('http://www.omdbapi.com/?apikey=54ece844&s='+this.lookUp+'&page='+this.page)
         .then(function (response) {
-          this.response = response;
-          return this.response.json();
+          return response.json();
         })
         .then(function (result) {
+          console.log(result);
           this.result = result;
           
+          if( result.Response == 'False' ){
+            alert("Tidak Ditemukan Film Dengan Pencarian Tersebut");
+            inputanText.value = '';
+            listProducts.innerHTML = '';
+            searchMe("world");                  
+          }
+
           // State
           // Number of products
           const numberOfItems = this.result.Search.length;
@@ -140,26 +146,129 @@
           
           buildPagination(currentPage);
           
+          let clickedPage = 1;
+          if( numberPerPage < 9 ) {
+            numberPerPage = result.Search.length;
+          }
+
+          trimStart = (clickedPage-1)*numberPerPage;
+          trimEnd = trimStart + numberPerPage;
+          if( (trimStart + numberPerPage) > result.Search.length ){
+            trimEnd = result.Search.length;
+          } 
+
           $('.btn-pagination').click(function() {
-            let clickedPage = $(this).val();
+            clickedPage = $(this).val();
             console.log('Page clicked on '+clickedPage);
             // buildPagination(clickedPage);
+
+            if( numberPerPage < 9 ) {
+              numberPerPage = result.Search.length;
+            }
+
+            console.log(numberPerPage);
+
+            trimStart = (clickedPage-1)*numberPerPage;
+            trimEnd = trimStart + numberPerPage;
+            if( (trimStart + numberPerPage) > result.Search.length ){
+              trimEnd = result.Search.length;
+            } 
+
+            console.log("Dari Button", trimStart, trimEnd);
+
+            listProducts.innerHTML = '';
+
+            console.log(result.Search[trimStart].Poster);
+            
+            for(let z=trimStart; z < trimEnd; z++) {
+              /* populate kotak wrapper pake iterasi append appendChild via API call */
+              let newDivSatu = document.createElement('div');
+              newDivSatu.className = 'kotak-wrapper wrapper-product-' +(z+1)+ ' shadow-lg rounded col-4';
+              newDivSatu.style.cssText = 'background-color: #fafafa;';
+
+              listProducts.appendChild(newDivSatu);
+
+              let pointerDivSatu = document.querySelector('.wrapper-product-' +(z+1));
+              let newDivDuaSatu = document.createElement('div');
+              newDivDuaSatu.id = 'dsp-foreground-'+(z+1);
+              newDivDuaSatu.className = 'display-depan dsp-foreground-' +(z+1);
+              newDivDuaSatu.style.cssText = 'position: absolute;';
+              
+              pointerDivSatu.appendChild(newDivDuaSatu);
+
+              let pointerDivDuaSatu = document.querySelector('.dsp-foreground-' +(z+1));
+              let newImage = document.createElement('img');
+
+              if(result.Search[z].Poster == "N/A") {
+                result.Search[z].Poster = './assets/images/pngfind-9-transparent.png';
+              }            
+
+              newImage.src = result.Search[z].Poster;
+              newImage.style.cssText = 'width:200px; height:175px';
+
+              pointerDivDuaSatu.appendChild(newImage);
+
+              let newP = document.createElement('p');
+              newP.className = 'text-wrap';
+              newP.style.cssText = 'margin-top: 16px; width:200px;';
+              newP.textContent = (result.Search[z].Title) + ' (' + (result.Search[z].Year) +')';
+              pointerDivDuaSatu.appendChild(newP);
+              /* end */
+
+              /* bikin div button untuk deskripsi pake insertAdjacentHTML */
+              pointerDivDuaSatu.insertAdjacentHTML('afterend',`
+                <div id="dsp-background-${z+1}" class="dsp-background-${z+1}" style="position: relative; display: none;">
+                  <a href="detail.html?id=${result.Search[z].imdbID}&title=${result.Search[z].Title}">
+                    <button class="tombol-info-${z+1} btn btn-light w-100">HRef</button>
+                  </a>
+                  <br/>
+                  <button data-toggle="modal" data-target="#exampleModalCenter-${z+1}" class="tombol-info-${z+1} btn btn-dark w-100">Modal</button>                
+                </div>            
+              `);
+              /* end bikin div-button pake insertAdjacentHTML */
+
+              /* klo mau pake modal pake ini */
+              let testingButton = document.querySelector('.dsp-background-'+(z+1));
+              // console.log(testingButton);
+              testingButton.addEventListener('click',function(){
+                $('#exampleModalCenter-'+(z+1)).modal('show');
+              });
+              /* end */
+
+              /* bikin div modal */
+              document.querySelector('.wrapper-product-' +(z+1)).insertAdjacentHTML('beforebegin',`
+              <div class="modal fade" id="exampleModalCenter-${z+1}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title mx-auto" id="exampleModalLongTitle"><i>${ (result.Search[z].Title) + ' (' + (result.Search[z].Year) +')' }</i></h5>
+                    </div>
+                    <div class="modal-body">
+                      <p class="text-left">IMDB ID: <i>${ result.Search[z].imdbID }</i></p>
+                      <p class="text-left">Type: <i>${ result.Search[z].Type }</i></p>
+                    </div>
+                  </div>
+                </div>
+              </div>    
+              `);
+              /* end bikin div modal */
+
+              /* Bikin effect hoverin hoverout */            
+              let pointerDivDuaDua = document.querySelector('.dsp-background-'+(z+1));            
+              pointerDivSatu.addEventListener('mouseover', function(){
+                pointerDivDuaSatu.style.cssText += 'background-color: grey; opacity: 30%;';
+                pointerDivDuaDua.style.cssText = 'position: relative;';
+              });
+              pointerDivSatu.addEventListener('mouseout', function(){
+                pointerDivDuaSatu.style.cssText = 'position: absolute;';
+                pointerDivDuaDua.style.cssText = 'position: relative; display: none;';              
+              });            
+              /* end */
+            }
+
           });
 
-          for(let z=0; z < this.result.Search.length; z++) {
-            /* populate kotak wrapper pake iterasi jumlah data via API call */            
-            // listProducts.innerHTML += `
-            //   <div class="kotak-wrapper wrapper-product-` +(z+1)+ ` shadow-lg rounded col-4" style="background-color: #fafafa;">
-            //     <div id="dsp-foreground-${z+1}" class="display-depan dsp-foreground-` +(z+1)+ `" style="position: absolute;">
-            //       <img src="${this.result.Search[z].Poster}" style="width:200px; height:175px"></img>
-            //       <p class="text-wrap" style="margin-top: 16px;">${this.result.Search[z].Title} (${this.result.Search[z].Year})</p>                  
-            //     </div>
-            //     <div id="dsp-background-${z+1}" class="dsp-background-${z+1}" style="position: relative; display: none;">
-            //       <button class="tombol-info-${z+1}" btn btn-light w-100">Info</button>
-            //     </div>                        
-            //   </div>                  
-            // `;
-
+          for(let z=trimStart; z < trimEnd; z++) {
             /* populate kotak wrapper pake iterasi append appendChild via API call */
             let newDivSatu = document.createElement('div');
             newDivSatu.className = 'kotak-wrapper wrapper-product-' +(z+1)+ ' shadow-lg rounded col-4';
@@ -178,11 +287,11 @@
             let pointerDivDuaSatu = document.querySelector('.dsp-foreground-' +(z+1));
             let newImage = document.createElement('img');
 
-            if(this.result.Search[z].Poster == "N/A") {
-              this.result.Search[z].Poster = './assets/images/pngfind-9-transparent.png';
+            if(result.Search[z].Poster == "N/A") {
+              result.Search[z].Poster = './assets/images/pngfind-9-transparent.png';
             }            
 
-            newImage.src = this.result.Search[z].Poster;
+            newImage.src = result.Search[z].Poster;
             newImage.style.cssText = 'width:200px; height:175px';
 
             pointerDivDuaSatu.appendChild(newImage);
@@ -190,41 +299,29 @@
             let newP = document.createElement('p');
             newP.className = 'text-wrap';
             newP.style.cssText = 'margin-top: 16px; width:200px;';
-            newP.textContent = (this.result.Search[z].Title) + ' (' + (this.result.Search[z].Year) +')';
+            newP.textContent = (result.Search[z].Title) + ' (' + (result.Search[z].Year) +')';
             pointerDivDuaSatu.appendChild(newP);
+            /* end */
 
-            /* bikin div-button pake insertAdjacentHTML */
+            /* bikin div button untuk deskripsi pake insertAdjacentHTML */
             pointerDivDuaSatu.insertAdjacentHTML('afterend',`
               <div id="dsp-background-${z+1}" class="dsp-background-${z+1}" style="position: relative; display: none;">
-                <a href="detail.html?id=${this.result.Search[z].imdbID}&title=${this.result.Search[z].Title}">
-                  <button data-toggle="modal" data-target="#exampleModalCenter-${z+1}" class="tombol-info-${z+1} btn btn-light w-100">Info</button>
+                <a href="detail.html?id=${result.Search[z].imdbID}&title=${result.Search[z].Title}">
+                  <button class="tombol-info-${z+1} btn btn-light w-100">HRef</button>
                 </a>
+                <br/>
+                <button data-toggle="modal" data-target="#exampleModalCenter-${z+1}" class="tombol-info-${z+1} btn btn-dark w-100">Modal</button>                
               </div>            
             `);
             /* end bikin div-button pake insertAdjacentHTML */
 
-            /* klo mau pake modal pake ini dengan a href dihapus */
+            /* klo mau pake modal pake ini */
             let testingButton = document.querySelector('.dsp-background-'+(z+1));
+            // console.log(testingButton);
             testingButton.addEventListener('click',function(){
               $('#exampleModalCenter-'+(z+1)).modal('show');
             });
             /* end */
-
-            /* bikin div-button pake append - DIDNT WORK FOR MODAL (RIBET JS-nya) */
-            // let newDivDuaDua = document.createElement('div');
-            // newDivDuaDua.id = 'dsp-background-'+(z+1);
-            // newDivDuaDua.className = 'dsp-background-'+(z+1); 
-            // newDivDuaDua.style.cssText = 'position: relative; display: none;';
-
-            // pointerDivSatu.appendChild(newDivDuaDua);
-
-            // let pointerDivDuaDua = document.querySelector('.dsp-background-'+(z+1));
-            // let newButton = document.createElement('button');
-            // newButton.className = 'tombol-info-' +(z+1)+ ' btn btn-light w-100';
-            // newButton.textContent = 'Info';
-
-            // pointerDivDuaDua.appendChild(newButton);
-            /* end populate kotak wrapper pake iterasi append appendChild via API call */
 
             /* bikin div modal */
             document.querySelector('.wrapper-product-' +(z+1)).insertAdjacentHTML('beforebegin',`
@@ -232,11 +329,11 @@
               <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                   <div class="modal-header">
-                    <h5 class="modal-title mx-auto" id="exampleModalLongTitle"><i>${ (this.result.Search[z].Title) + ' (' + (this.result.Search[z].Year) +')' }</i></h5>
+                    <h5 class="modal-title mx-auto" id="exampleModalLongTitle"><i>${ (result.Search[z].Title) + ' (' + (result.Search[z].Year) +')' }</i></h5>
                   </div>
                   <div class="modal-body">
-                    <p class="text-left">IMDB ID: <i>${ this.result.Search[z].imdbID }</i></p>
-                    <p class="text-left">Type: <i>${ this.result.Search[z].Type }</i></p>
+                    <p class="text-left">IMDB ID: <i>${ result.Search[z].imdbID }</i></p>
+                    <p class="text-left">Type: <i>${ result.Search[z].Type }</i></p>
                   </div>
                 </div>
               </div>
@@ -244,7 +341,7 @@
             `);
             /* end bikin div modal */
 
-            /* Bikin fungsi div-button-info dan set opacity */            
+            /* Bikin effect hoverin hoverout */            
             let pointerDivDuaDua = document.querySelector('.dsp-background-'+(z+1));            
             pointerDivSatu.addEventListener('mouseover', function(){
               pointerDivDuaSatu.style.cssText += 'background-color: grey; opacity: 30%;';
@@ -254,24 +351,7 @@
               pointerDivDuaSatu.style.cssText = 'position: absolute;';
               pointerDivDuaDua.style.cssText = 'position: relative; display: none;';              
             });            
-
-            // let eventForeGroundSatu = document.querySelector('.list-products .wrapper-product-' +(z+1)+ ' .dsp-foreground-' +(z+1));
-
-            /* create div button using append instead of innerHTML */
-            // let newDiv = document.createElement('div')
-            // newDiv.className = 'dsp-background-' +(z+1);
-            // newDiv.id = 'dsp-background-' +(z+1);
-            // newDiv.style.cssText = 'position: relative'
-
-            // let newChildDiv = document.createElement('button')
-            // newChildDiv.className = 'btn btn-light w-100'
-            // newChildDiv.textContent = 'Info'
-            // newDiv.appendChild(newChildDiv)
-            
-            // document.querySelector('.wrapper-product-' +(z+1)).appendChild(newDiv);
-            
-            /* set foreground position and opacity */
-            // eventForeGroundSatu.style.cssText = 'background-color: grey; opacity: 30%; position: absolute';
+            /* end */
           }
         })
         .catch(function (error) {
@@ -284,22 +364,8 @@
     let btnReset = document.querySelector('.judul-search-product .search-form .resetting');
     btnReset.addEventListener('click',function(){
       inputanText.value = '';
+      listProducts.innerHTML = '';
+      searchMe("world");      
     });    
-  
-    // var textLogo = document.querySelector('.navbar .logo .text-logo')
-    // console.log(textLogo);
-    /* cara 1 -- langsung jalan tanpa diklik */
-    // textLogo.addEventListener('click', function() {
-    //   console.log('click dari Logo');
-    // });
-    /* cara 2 -- load dulu, diklik baru jalan */
-    // textLogo.addEventListener('click', coba);
-    // function coba() {
-    //   console.log('click dari Logo');
-    // }
-    /* cara 3 -- bikin function trus masukin ke html trus kasi onCLick() */
-    // function coba() {
-    //   console.log('click dari Logo')
-    // }
   </script>
 </html>
