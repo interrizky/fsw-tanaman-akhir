@@ -33,20 +33,21 @@
           </div>
         </div>        
       </div>
-    </div>      
-
-    <div class="row related-movie" style="text-align: center;">
+    </div>  
+    
+    <div class="row preambules mx-auto" style="text-align: center;">
       <p class="preambule" style="font-size: 24px;"><i>Movie That You May Like</i></p>
-      <div class="wrapper-thumbnail d-flex justify-content-center">
+    </div>
 
-      </div>
+    <div class="row related-movie justify-content-center">
+
     </div>
   </div>
 </body>
 <script type="text/javascript">
     const urlSearchParams = new URLSearchParams(window.location.search);
     const params = Object.fromEntries(urlSearchParams.entries());  
-    console.log(params);
+    // console.log(params);
     // console.log(params.id);
     // console.log(params.title);
 
@@ -56,6 +57,10 @@
     })
     .then(function (result) { 
       console.log(result);
+      for (const [key, value] of Object.entries(result)) {
+          console.log(`${key}: ${value}`);
+      }      
+
       /* poster */
       if(result.Poster == "N/A") {
         result.Poster = './assets/images/pngfind-9-transparent.png';
@@ -102,21 +107,32 @@
       })
       .then(function(result){
         let arrayBaru = [];
-        arrayBaru = result.Search.slice(0,3)
+        // arrayBaru = result.Search.slice(0,3)
+        arrayBaru = result.Search;
 
-        for (var j = 0; j < arrayBaru.length; j++) {
-          let isiThumb = document.querySelector('.related-movie .wrapper-thumbnail');
+        for (var j = 0; j < 8; j++) {
+          let isiThumb = document.querySelector('.related-movie');
           
           if(arrayBaru[j].Poster == "N/A") {
             arrayBaru[j].Poster = './assets/images/pngfind-9-transparent.png';
           }
 
-          isiThumb.insertAdjacentHTML('afterbegin', `
-            <div class="thumbnail-${(j+1)} m-4 shadow-lg rounded col-md-3">
-              <image class="mb-2" style="width:200px; height:200px;" src='${arrayBaru[j].Poster}''></image>
-              <p class="text-wrap"><i>${arrayBaru[j].Title} (${arrayBaru[j].Year})</i></p>
-            </div>          
+          isiThumb.insertAdjacentHTML('beforeend', `
+            <div class="wrapper-thumbnail wrapper-thumbnail-${(j+1)} text-center shadow-lg rounded m-2 w-25 col-4">
+              <div id="thumbnail-${(j+1)}" class="thumbnail-${(j+1)}">
+                <image class="m-2" style="width:200px; height:200px;" src='${arrayBaru[j].Poster}''></image>
+                <p class="m-2 text-wrap"><i>${arrayBaru[j].Title} (${arrayBaru[j].Year})</i></p>
+              </div>
+
+              <div id="dsp-background-${(j+1)}" class="dsp-background-${(j+1)}">
+                <a href="detail.html?id=${arrayBaru[j].imdbID}&title=${arrayBaru[j].Title}">
+                  <button class="tombol-info-${(j+1)} btn btn-outline-dark w-100">HRef</button>
+                </a>
+              </div>                         
+            </div>
           `);
+
+
         }
       })
       .catch(function (error) {
