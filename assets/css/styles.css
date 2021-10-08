@@ -83,4 +83,32 @@ body {
   margin-left: 10px;
 }
 
-/* detail.html */
+.related-movie {
+  background-color: lightsteelblue;
+  margin-left: 10%;
+  margin-right: 10%;
+  margin-bottom: 10%;
+  /* padding: 50%; */
+}
+
+.carousel-inner .carousel-item {
+  text-align: center;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+}
+
+.carousel-inner .carousel-item.active {
+  text-align: center;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+  left: 200px;
+}
+
+.carousel-inner .carousel-item.active img {
+  text-align: center;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+}

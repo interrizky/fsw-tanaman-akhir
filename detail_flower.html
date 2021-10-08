@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="./assets/css/styles.css" />
+  </head>
+  <body>
+    <div class="container-fluid">
+      <div class="row navbar">
+        <div class="logo col-7">
+          <a
+            class="text-logo"
+            style="margin-left: 35px; font-weight: bold"
+            href="apix_flower.html"
+            >LOGO</a
+          >
+        </div>
+        <div class="menu col-5 d-flex flex-row-reverse justify-content-center">
+          <button type="button" class="btn btn-outline-light">SUBSCRIBE</button>
+          <div class="p-2 bd-highlight">ABOUT</div>
+          <div class="p-2 bd-highlight">PRODUCT</div>
+          <div class="p-2 bd-highlight">ARTICLES</div>
+        </div>
+      </div>
+
+      <div class="row details">
+        <div
+          class="
+            wrapper
+            poster-desc
+            col-md-12
+            p-5
+            d-flex
+            justify-content-center
+          "
+        >
+          <div
+            class="
+              poster-image
+              col-md-4
+              m-3
+              shadow-lg
+              rounded
+              justify-content-center
+            "
+            style="
+              align-content: center;
+              align-items: center;
+              text-align: center;
+              background-color: lightsteelblue;
+            "
+          ></div>
+          <div
+            class="teks-deskripsi col-md-8 m-3 shadow-lg rounded"
+            style="
+              align-content: center;
+              align-items: center;
+              text-align: left;
+              background-color: lightsteelblue;
+            "
+          >
+            <div class="deskripsi p-5"></div>
+          </div>
+        </div>
+      </div>
+
+      <div
+        class="row preambules mx-auto"
+        style="text-align: center; justify-content: center"
+      >
+        <p class="preambule" style="font-size: 24px">
+          <i>Flowers That You May Like</i>
+        </p>
+      </div>
+
+      <div class="row related-movie justify-content-center">
+        <div
+          id="carouselExampleControls"
+          class="carousel slide w-75"
+          data-ride="carousel"
+        >
+          <div class="carousel-inner"></div>
+          <a
+            class="carousel-control-prev"
+            href="#carouselExampleControls"
+            role="button"
+            data-slide="prev"
+          >
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+          </a>
+          <a
+            class="carousel-control-next"
+            href="#carouselExampleControls"
+            role="button"
+            data-slide="next"
+          >
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+          </a>
+        </div>
+      </div>
+    </div>
+    <script type="text/javascript">
+      const urlSearchParams = new URLSearchParams(window.location.search)
+      const params = Object.fromEntries(urlSearchParams.entries())
+      // console.log(params)
+      // console.log(params.nama)
+      // console.log(params.harga)
+      // console.log(params.poster)
+
+      let nama = params.nama
+      let harga = params.harga
+      let poster = params.poster
+
+      let flower_list = [
+        {
+          nama: 'Bunga 1',
+          harga: '100.000',
+          poster: './assets/images/pngfind-1-transparent.png'
+        },
+        {
+          nama: 'Bunga 2',
+          harga: '200.000',
+          poster: './assets/images/pngfind-2-transparent.png'
+        },
+        {
+          nama: 'Bunga 3',
+          harga: '300.000',
+          poster: './assets/images/pngfind-3-transparent.png'
+        },
+        {
+          nama: 'Bunga 4',
+          harga: '400.000',
+          poster: './assets/images/pngfind-4-transparent.png'
+        },
+        {
+          nama: 'Bunga 5',
+          harga: '500.000',
+          poster: './assets/images/pngfind-5-transparent.png'
+        },
+        {
+          nama: 'Bunga 6',
+          harga: '600.000',
+          poster: './assets/images/pngfind-6-transparent.png'
+        },
+        {
+          nama: 'Bunga 7',
+          harga: '700.000',
+          poster: './assets/images/pngfind-7-transparent.png'
+        },
+        {
+          nama: 'Bunga 8',
+          harga: '800.000',
+          poster: './assets/images/pngfind-8-transparent.png'
+        },
+        {
+          nama: 'Bunga 9',
+          harga: '900.000',
+          poster: './assets/images/pngfind-9-transparent.png'
+        }
+      ]
+
+      showDetail()
+
+      function showDetail() {
+        /* poster */
+        let images = document.querySelector('.details .poster-image')
+        images.insertAdjacentHTML(
+          'afterbegin',
+          `
+        <img class="p-3" src="${poster}" style="width: 75%;"></img>
+        <h5><b>${nama}</b> (<i>${harga}</i>)</h5>
+        <br/>
+      `
+        )
+
+        /* text */
+        let deskripsi = document.querySelector(
+          '.details .teks-deskripsi .deskripsi'
+        )
+        deskripsi.insertAdjacentHTML(
+          'afterbegin',
+          `
+        <h5><b>Nama : </b>${nama}</h5>
+        <h5><b>Harga : </b>${harga}</h5>
+        <button type="button" class="pricey tn btn-info">Buy Product? (Harga Dalam Alert)</button>
+        <br/>
+      `
+        )
+      }
+
+      let priceyBtn = document.querySelector('.pricey')
+      // console.log(priceyBtn)
+      priceyBtn.addEventListener('click', function () {
+        alert('Harganya Adalah: ' + harga)
+      })
+
+      let arrayBaru = []
+      arrayBaru = flower_list.slice(0, 9)
+      //arrayBaru = result.Search;
+
+      // for (var j = 0; j < arrayBaru.length; j++) {
+      //   let isiThumb = document.querySelector('.related-movie')
+
+      //   isiThumb.insertAdjacentHTML(
+      //     'beforeend',
+      //     `
+      //         <div class="wrapper-thumbnail wrapper-thumbnail-${
+      //           j + 1
+      //         } text-center shadow-lg rounded m-2 w-25 col-4">
+      //           <div id="thumbnail-${j + 1}" class="thumbnail-${j + 1}">
+      //             <image class="m-2" style="width:200px; height:200px;" src='${
+      //               arrayBaru[j].poster
+      //             }''></image>
+      //             <p class="m-2 text-wrap"><i>${arrayBaru[j].nama} (${
+      //       arrayBaru[j].harga
+      //     })</i></p>
+      //           </div>
+
+      //           <div id="dsp-background-${j + 1}" class="dsp-background-${j + 1}">
+      //             <a href="detail_flower.html?nama=${flower_list[j].nama}&harga=${
+      //       flower_list[j].harga
+      //     }&poster=${flower_list[j].poster}">
+      //               <button class="tombol-info-${
+      //                 j + 1
+      //               } btn btn-outline-dark w-100">HRef</button>
+      //             </a>
+      //           </div>
+      //         </div>
+      //       `
+      //   )
+      // }
+
+      for (var j = 0; j < arrayBaru.length; j++) {
+        let isiCarousel = document.querySelector('.carousel-inner')
+        isiCarousel.style.cssText = 'width:50%; height:100%;'
+
+        if (j == 0) {
+          isiCarousel.insertAdjacentHTML(
+            'beforeend',
+            `
+          <div class="carousel-item active">
+            <a href="detail_flower.html?nama=${flower_list[j].nama}&harga=${flower_list[j].harga}&poster=${flower_list[j].poster}" class="link">
+              <img src="${flower_list[j].poster}" alt="First slide" />              
+            </a>
+          </div>
+        `
+          )
+        } else
+          isiCarousel.insertAdjacentHTML(
+            'beforeend',
+            `
+        <div class="carousel-item">
+          <a href="detail_flower.html?nama=${flower_list[j].nama}&harga=${flower_list[j].harga}&poster=${flower_list[j].poster}" class="link">
+            <img src="${flower_list[j].poster}" alt="First slide" href="detail_flower.html?nama=${flower_list[j].nama}&harga=${flower_list[j].harga}&poster=${flower_list[j].poster}" />
+          </a>
+        </div>
+      `
+          )
+      }
+    </script>
+    <script
+      src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+      integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+      integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+      integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>
