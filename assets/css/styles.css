@@ -87,7 +87,7 @@ body {
   background-color: lightsteelblue;
   margin-left: 10%;
   margin-right: 10%;
-  margin-bottom: 10%;
+  margin-bottom: 5%;
   /* padding: 50%; */
 }
 
@@ -103,7 +103,6 @@ body {
   align-items: center;
   align-content: center;
   justify-content: center;
-  left: 200px;
 }
 
 .carousel-inner .carousel-item.active img {
@@ -111,4 +110,11 @@ body {
   align-items: center;
   align-content: center;
   justify-content: center;
+}
+
+.review {
+  background-color: lightsteelblue;
+  margin-left: 10%;
+  margin-right: 10%;
+  margin-bottom: 10%;
 }
